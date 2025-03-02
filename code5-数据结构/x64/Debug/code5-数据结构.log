@@ -1,0 +1,6 @@
+﻿  源.cpp
+E:\gitee本地仓库\Ctext\code5-数据结构\code5-数据结构\源.cpp(4,21): error C2144: 语法错误:“int”的前面应有“;”
+E:\gitee本地仓库\Ctext\code5-数据结构\code5-数据结构\源.cpp(4,9): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+E:\gitee本地仓库\Ctext\code5-数据结构\code5-数据结构\源.cpp(4,21): warning C4091: “”: 没有声明变量时忽略“int”的左侧
+E:\gitee本地仓库\Ctext\code5-数据结构\code5-数据结构\源.cpp(19,5): error C2065: “Ptr”: 未声明的标识符
+E:\gitee本地仓库\Ctext\code5-数据结构\code5-数据结构\源.cpp(20,1): error C2059: 语法错误:“}”
