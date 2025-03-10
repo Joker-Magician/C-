@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="二叉树.cpp" />
     <ClCompile Include="堆栈.cpp" />
     <ClCompile Include="队列.cpp" />
   </ItemGroup>
