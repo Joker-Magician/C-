@@ -37,37 +37,37 @@
 //	return 0;
 //}
 
-#include<stdio.h>
-#include<stdlib.h>
-#define MaxSize 100
-/*队列的链式存储结构 可以用一个单链表实现，插入和删除操作分别在
-链表的两头进行*/
-
-struct Node {
-	int Data;
-	struct Node* Next;
-};
-struct QNode {  /*链队列结构*/
-	struct Node* rear;/*指向队尾节点*/
-	struct Node* front;/*指向队头节点*/
-};
-typedef struct QNode* Queue;
-Queue PtrQ;
-
-int Delete(Queue PtrQ)
-{
-	struct Node* FrontCell;
-	int FrontElem;
-
-	if (PtrQ->front == NULL) {
-		printf("队列空"); return -1;//返回错误信息
-	}
-	FrontCell = PtrQ->front;
-	if (PtrQ->front == PtrQ->rear)
-		PtrQ->front = PtrQ->rear = NULL;//判别队列是否只有一个元素
-	else
-		PtrQ->front = PtrQ->front->Next = NULL;
-	FrontElem = FrontCell->Data;
-	free(FrontCell);
-	return FrontElem;
-}//入队列
+//#include<stdio.h>
+//#include<stdlib.h>
+//#define MaxSize 100
+///*队列的链式存储结构 可以用一个单链表实现，插入和删除操作分别在
+//链表的两头进行*/
+//
+//struct Node {
+//	int Data;
+//	struct Node* Next;
+//};
+//struct QNode {  /*链队列结构*/
+//	struct Node* rear;/*指向队尾节点*/
+//	struct Node* front;/*指向队头节点*/
+//};
+//typedef struct QNode* Queue;
+//Queue PtrQ;
+//
+//int Delete(Queue PtrQ)
+//{
+//	struct Node* FrontCell;
+//	int FrontElem;
+//
+//	if (PtrQ->front == NULL) {
+//		printf("队列空"); return -1;//返回错误信息
+//	}
+//	FrontCell = PtrQ->front;
+//	if (PtrQ->front == PtrQ->rear)
+//		PtrQ->front = PtrQ->rear = NULL;//判别队列是否只有一个元素
+//	else
+//		PtrQ->front = PtrQ->front->Next = NULL;
+//	FrontElem = FrontCell->Data;
+//	free(FrontCell);
+//	return FrontElem;
+//}//入队列
