@@ -7,10 +7,6 @@
       "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u5806\u6808.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u5806\u6808.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
@@ -47,7 +43,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "\u961F\u5217.cpp",
               "DocumentMoniker": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp",
               "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp",
@@ -55,40 +51,7 @@
               "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp",
               "ViewState": "AgIAAB4AAAAAAAAAAAAAACkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-04T13:59:07.732Z"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "01d38e96-2621-44bc-85a8-78131b1bd162",
-        "Display": 0,
-        "X": -1,
-        "Y": 132,
-        "Width": 803,
-        "Height": 765,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "\u5806\u6808.cpp",
-              "DocumentMoniker": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u5806\u6808.cpp",
-              "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u5806\u6808.cpp",
-              "ToolTip": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u5806\u6808.cpp",
-              "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u5806\u6808.cpp",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAADgAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-02T11:34:19.662Z",
+              "WhenOpened": "2025-03-04T13:59:07.732Z",
               "EditorCaption": ""
             }
           ]
