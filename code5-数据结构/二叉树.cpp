@@ -4,6 +4,7 @@
 #include<string.h>
 #define MaxSize 100
 #define ERROR -1
+#define TURE 1
 //二叉树的存储
 
 //数组存储
@@ -63,13 +64,15 @@ void PostOrderTravereal(BinTree BT)
 //遇到一个节点，就把他压栈，并去遍历它的左子树；
 //当左子树遍历结束后，从栈顶弹出这个节点并访问它；
 //然后按其右指针再去中序遍历该节点的右子树
+
+//尾递归的方法遍历二叉树
 typedef struct SNode* Stack;
 struct SNode {
-	ElementType Data[MaxSize];
+	BinTree Data[MaxSize];
 	int Top;
 };
 
-void Push(Stack PtrS, ElementType item)
+void Push(Stack PtrS, BinTree item)
 {
 	if (PtrS->Top == MaxSize - 1) {
 		printf("堆栈满"); return;
@@ -79,23 +82,42 @@ void Push(Stack PtrS, ElementType item)
 		return;
 	}
 }
-ElementType Pop(Stack PtrS)
+BinTree Pop(Stack PtrS)
 {
 	if (PtrS->Top == -1) {
 		printf("堆栈空");
-		return ERROR;
+		return NULL;
 	}
 	else {
 		return (PtrS->Data[(PtrS->Top)--]);
 	}
 }
 
+Stack CreateStack()
+{
+	Stack S = (Stack)malloc(sizeof(struct SNode));
+	if (S == NULL) {
+		printf("内存分配失败");
+		exit(1);
+	}
+	S->Top = -1;
+	return S;
+}
+
+int IsEmpty(Stack PtrS)
+{
+	if (PtrS->Top == -1)
+		return ERROR;
+	else
+		return TURE;
+}
+
 void InOrderTravereal_2(BinTree BT){
 	BinTree T = BT;
-	Stack S = CreatStack(MaxSize);	//创建并初始化堆栈S*
+	Stack S = CreateStack();	//创建并初始化堆栈S*
 	while (T || !IsEmpty(S)) {
 		while (T) {					//一直向左并将沿途节点压入堆栈
-			Push(S, T->Data);/*第一次遇到节点*/
+			Push(S, T);/*第一次遇到节点*/
 			T = T->Left;
 		}
 		if (!IsEmpty(S)) {
