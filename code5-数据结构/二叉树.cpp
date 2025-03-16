@@ -127,3 +127,65 @@ void InOrderTravereal_2(BinTree BT){
 		}
 	}
 }
+
+//层序遍历
+struct QNode {
+	BinTree Data[MaxSize];
+	int rear;
+	int front;
+};
+typedef struct QNode* Queue;
+
+Queue CreatQueue()
+{
+	Queue Q = (Queue)malloc(sizeof(struct QNode));
+	if (Q == NULL) {
+		printf("内存分配失败");
+		exit(1);
+	}
+	Q->rear = -1;
+	Q->front = -1;
+	return Q;
+}
+
+void AddQ(Queue PtrQ, BinTree item)
+{
+	if ((PtrQ->rear + 1) % MaxSize == PtrQ->front) {
+		printf("队列满");
+		return;
+	}
+	PtrQ->rear = (PtrQ->rear + 1) % MaxSize;
+	PtrQ->Data[PtrQ->rear] = item;
+}
+
+ElementType IsEmptyQ(Queue PtrQ){
+	if (PtrQ->rear ==  PtrQ->front)
+		return ERROR;
+	return TURE;
+}
+
+ElementType Delete(Queue PtrQ)
+{
+	if (PtrQ->front == PtrQ->rear) {
+		printf("队列空");
+		return NULL;
+	}
+	else {
+		PtrQ->front = (PtrQ->front + 1) % MaxSize;
+		return PtrQ->Data[PtrQ->front];
+	}
+}
+
+void LevelOrderTraversal(BinTree BT)
+{
+	Queue Q;
+	BinTree T;
+	Q = CreatQueue();
+	AddQ(Q, BT);
+	while (!IsEmptyQ(Q)) {
+		T = Delete(Q);
+		printf("%d\n", T->Data);
+		if (T->Left) AddQ(Q, T->Left);
+		if (T->Right) AddQ(Q, T->Right);
+	}
+}

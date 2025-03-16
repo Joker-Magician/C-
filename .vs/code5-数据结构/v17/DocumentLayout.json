@@ -36,11 +36,32 @@
               "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811.cpp",
               "ToolTip": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811.cpp",
               "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811.cpp",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAEMAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAvwJ0AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-10T14:12:46.997Z",
               "EditorCaption": ""
-            },
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "60e265d8-5575-48a9-8f67-8660962a078c",
+        "Display": 0,
+        "X": -66,
+        "Y": 193,
+        "Width": 654,
+        "Height": 614,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -49,7 +70,7 @@
               "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp",
               "ToolTip": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp",
               "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u961F\u5217.cpp",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAACkAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABcAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-04T13:59:07.732Z",
               "EditorCaption": ""
