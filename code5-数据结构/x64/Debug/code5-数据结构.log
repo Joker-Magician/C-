@@ -1,12 +1,7 @@
-﻿  二叉树.cpp
-E:\github本地仓库\C-\code5-数据结构\code5-数据结构\二叉树.cpp(175,32): error C2440: “return”: 无法从“BinTree”转换为“ElementType”
-      E:\github本地仓库\C-\code5-数据结构\code5-数据结构\二叉树.cpp(175,32):
-      没有使该转换得以执行的上下文
-  
-E:\github本地仓库\C-\code5-数据结构\code5-数据结构\二叉树.cpp(186,13): error C2440: “=”: 无法从“ElementType”转换为“BinTree”
-      E:\github本地仓库\C-\code5-数据结构\code5-数据结构\二叉树.cpp(186,13):
-      从整型类型转换为指针类型需要 reinterpret_cast、C 样式转换或带圆括号的函数样式强制转换
-  
-  堆栈.cpp
+﻿  二叉树-2.cpp
+  二叉树-1.cpp
   队列.cpp
   正在生成代码...
+E:\github本地仓库\C-\code5-数据结构\code5-数据结构\二叉树-2.cpp(65,11): warning C4101: “R2”: 未引用的局部变量
+E:\github本地仓库\C-\code5-数据结构\code5-数据结构\二叉树-2.cpp(65,7): warning C4101: “R1”: 未引用的局部变量
+  code5-数据结构.vcxproj -> E:\github本地仓库\C-\code5-数据结构\x64\Debug\code5-数据结构.exe
