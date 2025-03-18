@@ -21,7 +21,10 @@
     <ClCompile Include="队列.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="二叉树.cpp">
+    <ClCompile Include="二叉树-1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="二叉树-2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
