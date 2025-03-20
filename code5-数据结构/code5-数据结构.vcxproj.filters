@@ -27,5 +27,8 @@
     <ClCompile Include="二叉树-2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="二叉搜索树.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
