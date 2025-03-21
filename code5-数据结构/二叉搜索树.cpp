@@ -55,6 +55,7 @@ Position FindMax(BinTree BST)
 	if (BST)
 		while (BST->Right) BST = BST->Right;
 	return BST;
+<<<<<<< HEAD
 }
 
 //¶þ²æËÑË÷Ê÷µÄ²åÈë
@@ -97,4 +98,6 @@ BinTree Delete(ElementType X, BinTree BST)
 			free(Tmp);
 		}
 	return BST;
+=======
+>>>>>>> 5149d979f9e82ee8651d34eddc2be68cfcd1a966
 }
