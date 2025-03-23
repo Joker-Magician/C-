@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811-1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811-1.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{FCFADA64-0C9B-4B4C-AC7A-8A5C15D480CB}|code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784.vcxproj|solutionrelative:code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,56 +31,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp",
+              "DocumentMoniker": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp",
+              "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp",
+              "ToolTip": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp",
+              "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811\u7684\u5224\u522B.cpp",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAuwCAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-23T08:23:50.052Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "\u4E8C\u53C9\u641C\u7D22\u6811.cpp",
               "DocumentMoniker": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp",
               "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp",
               "ToolTip": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp",
               "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u641C\u7D22\u6811.cpp",
-<<<<<<< HEAD
-              "ViewState": "AgIAAFcAAAAAAAAAAAAAAF4AAAAjAAAAAAAAAA==",
-=======
-              "ViewState": "AgIAACEAAAAAAAAAAAAgwCYAAAAFAAAAAAAAAA==",
->>>>>>> 5149d979f9e82ee8651d34eddc2be68cfcd1a966
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-20T03:06:49.569Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "1b6d179a-fd60-4e7a-af9d-cd385e7c8b35",
-        "Display": 0,
-        "X": 185,
-        "Y": 168,
-        "Width": 623,
-        "Height": 751,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "\u4E8C\u53C9\u6811-1.cpp",
-              "DocumentMoniker": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811-1.cpp",
-              "RelativeDocumentMoniker": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811-1.cpp",
-              "ToolTip": "E:\\github\u672C\u5730\u4ED3\u5E93\\C-\\code5-\u6570\u636E\u7ED3\u6784\\code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811-1.cpp",
-              "RelativeToolTip": "code5-\u6570\u636E\u7ED3\u6784\\\u4E8C\u53C9\u6811-1.cpp",
-<<<<<<< HEAD
-              "ViewState": "AgIAAFQAAAAAAAAAAAAAAKsAAAAEAAAAAAAAAA==",
-=======
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAKsAAAAEAAAAAAAAAA==",
->>>>>>> 5149d979f9e82ee8651d34eddc2be68cfcd1a966
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-10T14:12:46.997Z",
               "EditorCaption": ""
             }
           ]
