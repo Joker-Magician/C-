@@ -49,7 +49,7 @@ int main()
 
 	//二分查找
 	vector<int>arr2{ 0,1,1,1,8,9,9 };//注意使用前要有序
-	int pos1 = lower_bound(arr.begin()+2, arr.end(), 8) - arr.begin();//从第二个开始找找到≥8的第一个元素
+	int pos1 = lower_bound(arr.begin()+2, arr.end(), 8) - arr.begin();//从第 二个开始找找到≥8的第一个元素
 	cout << pos1 << endl;
 	int pos2 = upper_bound(arr.begin(), arr.end(), 8) - arr.begin();//找到>8的第一个元素
 	cout << pos2 << endl;
