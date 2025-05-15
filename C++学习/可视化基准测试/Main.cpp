@@ -5,11 +5,13 @@
 #include<fstream>
 
 #include<cmath>
+#include<thread>
 
 struct ProfileResult
 {
 	std::string Name;
 	long long Start, End;
+	uint32_t ThreadID;//将一个线程id放到结构体中，然后我们也会把那个线程id输出到json文件中
 };
 
 struct InstrumentationSession
@@ -59,7 +61,8 @@ public:
 		m_OutputStream << "\"name\":\"" << name << "\",";
 		m_OutputStream << "\"ph\":\"X\",";
 		m_OutputStream << "\"pid\":0,";
-		m_OutputStream << "\"tid\":0,";
+		m_OutputStream << "\"tid\":" << result.ThreadID << ",";
+		//m_OutputStream << "\"tid\":0,";	//这里设置线程id,本例中设置为0
 		m_OutputStream << "\"ts\":" << result.Start;
 		m_OutputStream << "}";	//每次运行文件，这些就是我们要输出的
 
@@ -104,11 +107,13 @@ public:
 	{
 		auto endTimepoint = std::chrono::high_resolution_clock::now();
 
-		long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();//微秒microseconds,毫秒milliseconds
-		long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+		long long start = std::chrono::time_point_cast<std::chrono::milliseconds>(m_StartTimepoint).time_since_epoch().count();//微秒microseconds,毫秒milliseconds
+		long long end = std::chrono::time_point_cast<std::chrono::milliseconds>(endTimepoint).time_since_epoch().count();
 	
-		std::cout << m_Name << ":" << (end - start) << "ms\n";
-		Instrumentor::Get().WriteProfile({ m_Name, start, end });//通过WriteProfile函数用ProfileResult作为参数，使其包含名字，开始时间，结束时间
+		//std::cout << m_Name << ":" << (end - start) << "ms\n";
+		uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());//在timer中的stop函数看看timer实际上是在哪个线程上运行的，这样就可以设置这个线程id.C++标准库使得作为一个整数取得线程id变得困难，但由于线程id实现了一个哈希函数，我们可以使用这个小技巧
+	//我们会把线程id传递到结构体中，到正确的profile文件中，然后我们稍微改变下面的Benchmark,让它们使用多个线程，这样我们就能看到线程的运行情况了
+		Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });//通过WriteProfile函数用ProfileResult作为参数，使其包含名字，开始时间，结束时间
 
 		m_Stopped = true;
 	}
@@ -178,8 +183,16 @@ namespace Benchmark {
 			//Function1();
 			//Function2();
 		/*发生了函数重载，且两个函数都被调用了*/
-		PrintFunction(2);//这样如果按照上面的方法它们都会被定义为PrintFunction,因为预处理器__FUNCTION__定义所做的是取函数的实际名称，会难以区分重载函数的tracing
+		//PrintFunction(2);//这样如果按照上面的方法它们都会被定义为PrintFunction,因为预处理器__FUNCTION__定义所做的是取函数的实际名称，会难以区分重载函数的tracing
+		//PrintFunction();
+	
+		//std::thread a(std::bind(PrintFunction, 2));这里初次尝试使用std::bind名单结果更麻烦，它们它是同名函数重载，你还需要进行转换，相当混乱
+		std::thread a([]() {PrintFunction(2); });//这里使用lambda更简单
+		//std::thread b([]() {PrintFunction(); });//这样能够看到两个线程，注释掉后就可以看到RunBenchmarks线程的调用堆栈，它是我们的主线程
 		PrintFunction();
+
+		a.join();
+		//b.join();//最后加入2个囧函数，这样在两个线程都完成它们的工作之前，我们不会退出这个运行的Benchmark函数
 	}
 }//将以上内容让放到命名空间后，因为我们使用了__FUNCSIG__宏，我们就会得到所有这些信息
 //如果你的代码中有你想要分析的区域，特别的，不是在函数中，你可以将PROFILE_SCOPE放到任何当前作用域中,需要的话你也可以创建一个空作用域
@@ -205,3 +218,4 @@ int main()
 //我们下一步是取所有我们用计时器记录的计时数据，并把它们放入一个Chrome tracing希望的json格式文件
 
 //有了json文件后，将其拖到Chrome Tracing里就可以看到可视化的数据了
+//ChromeTracing同时也支持多线程，注意设置好线程id,这样你能够看到当前运行的所有线程，这在分析之外很有用，可以看到你的程序中到底发生了什么，这让计时和分析变得强大
