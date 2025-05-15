@@ -121,7 +121,8 @@ private:
 #define PROFILING 1	//如果这个设置为1,那么PROFILING是启用的，这意味这我们会有PROFILE_SCOPE引入一个InstrumentationTimer，并做所有这些事
 #if PROFILING
 #define PROFILE_SCOPE(name) InstrumentationTimer timer##__LINE__(name) //这里定义一个宏，它会把name作为参数，这会包装我们的InstrumentationTimer调用，这里我们会拼接行号,这样我们既可以为变量取一个唯一的名字，以防我们有很多这样的东西。但这里不需要##(这取决于编译器的使用)，为了安全起见这里使用它，我们只是把timer和行号链接在一起
-#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCTION__) //这个没有参数，这会调用PROFILE_SCOPE宏，但对于name,它会接受函数的名字，我们可以用编译宏_FUNCTION_来做，注意要放到#else里
+//#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCTION__) //这个没有参数，这会调用PROFILE_SCOPE宏，但对于name,它会接受函数的名字，我们可以用编译宏_FUNCTION_来做，注意要放到#else里
+#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__)	//__FUNCSIG__的宏，也就是函数签名，这样我们会得到整个函数的签名(不必担心重载的问题了)，不过仅仅这样会有calling convebtion(函数调用约定),这是签名的一部分，我们并不关心它。如果我们想要删掉它，通过一些字符的处理就可以在放入json文件前去处理它
 #else
 #define PROFILE_SCOPE(name)	//如果被禁用，我们让它空着就可以，这意味着PROFILE_SCOPE没有任何代码，这样可以有效地剥离计时器
 #endif
@@ -148,27 +149,52 @@ void Function2()
 //虽然我们可以从控制台上找到计时结果，但显示它们仍然只是数组，而且还非常难以找到
 //所以我们进入visualization(可视化)
 
-void RunBenchmarks()
-{	//由于我们堆栈中有另一个函数，我们也是可以将其可视化的
-	//InstrumentationTimer timer("RunBenchmarks");//这样就可以看到两个基准测试时间，通过看wall duration。
-//但不幸的是，这个RunBenchmarks必须复制和粘贴我们调用的每个函数的名称，另外这种计时代码不是我们想要在程序中一直运行的东西，应该有一个简单的方法来关闭这些，因为这会增加一些开销，所以我们要通过写一些宏来解决这两个问题
-	PROFILE_FUNCTION();
+namespace Benchmark {
+	void PrintFunction(int value)
+	{
 
-	std::cout << "Running Benchmarks...\n";
-	Function1();
-	Function2();
-}
+		PROFILE_FUNCTION();
+
+		for (int i = 0; i < 1000; i++)
+			std::cout << "Hello World #" << (i + value) << std::endl;
+	}
+
+	void PrintFunction()
+	{
+		PROFILE_FUNCTION();
+
+		for (int i = 0; i < 1000; i++)
+			std::cout << "Hello World #" << sqrt(i) << std::endl;
+	}
+
+	void RunBenchmarks()
+	{	//由于我们堆栈中有另一个函数，我们也是可以将其可视化的
+		//InstrumentationTimer timer("RunBenchmarks");//这样就可以看到两个基准测试时间，通过看wall duration。
+	//但不幸的是，这个RunBenchmarks必须复制和粘贴我们调用的每个函数的名称，另外这种计时代码不是我们想要在程序中一直运行的东西，应该有一个简单的方法来关闭这些，因为这会增加一些开销，所以我们要通过写一些宏来解决这两个问题
+		PROFILE_FUNCTION();
+
+		std::cout << "Running Benchmarks...\n";
+		/*一般调用情况*/
+			//Function1();
+			//Function2();
+		/*发生了函数重载，且两个函数都被调用了*/
+		PrintFunction(2);//这样如果按照上面的方法它们都会被定义为PrintFunction,因为预处理器__FUNCTION__定义所做的是取函数的实际名称，会难以区分重载函数的tracing
+		PrintFunction();
+	}
+}//将以上内容让放到命名空间后，因为我们使用了__FUNCSIG__宏，我们就会得到所有这些信息
+//如果你的代码中有你想要分析的区域，特别的，不是在函数中，你可以将PROFILE_SCOPE放到任何当前作用域中,需要的话你也可以创建一个空作用域
 
 int main()
 {
 	Instrumentor::Get().BeginSession("Profile");//创建一个有给定文件名的新文件，这里使用默认参数result.json。
 	/*Function1();
 	Function2();*/
-	RunBenchmarks();
+	Benchmark::RunBenchmarks();
 	Instrumentor::Get().EndSession();
-//在BeginSession和EndSession之间做的事情将会被放入分析文件中，这使得我们能够将分析数据分解成多个文件
+	//在BeginSession和EndSession之间做的事情将会被放入分析文件中，这使得我们能够将分析数据分解成多个文件
 	std::cin.get();
 }
+
 
 
 //数据可视化对我们人类来说一直是非常有用的，它能够让我们理解得更多
