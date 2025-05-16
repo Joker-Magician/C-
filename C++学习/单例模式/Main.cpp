@@ -1,22 +1,104 @@
 #include<iostream>
 
-class Singleton//单例
+//////////////////////////////////////////////////
+//class Singleton//单例
+//{
+//public:
+//	Singleton(const Singleton&) = delete;//通常要做的是,简单地删除复制构造函数，所以可以在这里标记复制构造函数为delet
+//
+//	static Singleton& Get()//对应第二步，我们需要某种静态函数，它会返回特定类型的引用或指针,通常叫他GetInstance或者简写成Get
+//	{ //然后需要返回某种Singleton的实例.现在，因为它只是一个i单例类，很明显，对于整个应用程序，这个类只有一个实例，所以你设计这个的方式，完全取决于你
+//		return s_Instance;//在下面定义了之后才能返回
+//	}
+//
+//	void Function() {}
+//
+//private:
+//	//首先，我们不能有构造函数，因为如果公共的构造函数，它就会被允许实例化,所以要将下面的这个构造函数标记为private,这意味着该类不能在外部被实例化
+//	Singleton() {}//第二步是提供一种静态访问该类的方法
+//
+//	float m_Member = 0.0f;
+//
+//	static Singleton s_Instance;//传统方法简单地创建那个单例类的静态实例，在这个私有成员里
+//};
+//
+//Singleton Singleton::s_Instance;//因为它是静态的，所以需要在某处定义这个单例，像定义任何类型的静态成员变量一样定义它
+//////////////////////////////////////////////////
+//以上就是一种非常流行的单例模式
+
+//尝试创建一个浮点数随机数生成器
+//class Random
+//{
+//public:
+//	Random(const Random&) = delete;
+//
+//	static Random& Get()
+//	{ 
+//		return s_Instance;
+//	}
+//
+//	/*1 float Float() { return m_RandomGenerator; }*///假设它是一个随机生成一个数的真实函数，然后返回这个数
+////如果上面只是要返回一个静态值，那么我们不需要再在外面定义
+//	//1 static float Float() { return Get().IFloat(); }//这是一种间接的方式让代码变得更加清爽。且显然一旦所有这些都被编译器内联，从所有这些函数调用中，你看不到任何性能损失
+//	static float Float() { return Get().m_RandomGenerator; }//2 这种方法比上面的好处是，它不需要一个静态函数，所以它可以访问所有的类成员，而不需要通过实例或类似的东西来访问
+//private:
+//	//1 float IFloat() { return m_RandomGenerator; }//这样看起来像一个接口，看到这里就可以知道，这是一个internal(内部的)Float函数
+//	Random() {}
+//
+//	float m_RandomGenerator = 0.5f;
+//
+//	static Random s_Instance;
+//};
+//
+//Random Random::s_Instance;
+
+//关于Get函数，我们现在写它的方式，就意味着我们需要在类成员中有一个静态实例，然后需要我们在某个翻译单元(.cpp)中来定义它
+//更好的方法是把这个静态声明移动到这个静态函数中
+
+class Random
 {
 public:
-	static Singleton& Get()//对应第二步，我们需要某种静态函数，它会返回特定类型的引用或指针,通常叫他GetInstance或者简写成Get
-	{ //然后需要返回某种Singleton的实例.现在，因为它只是一个i单例类，很明显，对于整个应用程序，这个类只有一个实例，所以你设计这个的方式，完全取决于你
+	Random(const Random&) = delete;
 
+	static Random& Get()
+	{
+		static Random instance;//这实际上是在函数内部有一个静态变量，这意味着它仍然在静态内存中，一旦Get函数第一次被调用，它将被实例化,然后在接下来的时间里，它只是在在静态内存中被引用，和之前做的是一样的
+		return instance;
 	}
-private:
-	//首先，我们不能有构造函数，因为如果公共的构造函数，它就会被允许实例化,所以要将下面的这个构造函数标记为private,这意味着该类不能在外部被实例化
-	Singleton() {}//第二步是提供一种静态访问该类的方法
 
-	static Singleton s_Instance;//传统方法简单地创建那个单例类的静态实例，在这个私有成员里
+	static float Float() { return Get().IFloat(); }//2 这种方法比上面的好处是，它不需要一个静态函数，所以它可以访问所有的类成员，而不需要通过实例或类似的东西来访问
+private:
+	float IFloat() { return m_RandomGenerator; }
+	Random() {}
+
+	float m_RandomGenerator = 0.5f;
+
 };
+
+//单例的核心就是这个Get函数，这里我有一个单独实例，我创建它一次，在这种情况下，它只会在第一次使用时创建，这个单例的生命周期就是你的应用的生命周期
+//一旦我们有了这个单例，我可以简单的写任何数量的非静态方法，并通过Get函数访问它们，或者如果我们想的话，我可以删掉一层交互(指不通过Get().来调用成员函数，而是直接写static函数来包装)
+//然后编写这些静态函数，在内部映射到可以访问成员数据和类的所有功能的成员函数
+
+namespace RandomClass {
+
+	static float s_RandomGenerator = 0.5;
+	static float Float() { return s_RandomGenerator; }
+}//单例如果不使用类，使用命名空间，这两者在功能上没有区别，它只是绑定到命名空间而不是类，只是我失去了public、private这些类的功能。当然也有其他方法可以做到，比如我有一个头文件，只是简单地包含这个函数的声明，然后我的cpp文件实现了这个函数，以及这个静态变量，这样也可以有效地隐藏
+//但是使用类没有什么缺点，它让你的代码更有条理
 
 int main()
 {
+	//Singleton::Get().Function();//这样可以访问上面的函数，不过这样写可能语义上有些歧义，可以采用下面的方法
+	//Singleton& instance = Singleton::Get();//如果这里不加引用你，那么单例内的所有数据都将被复制，如果我的单例里有一些member数据，那么数据当然会被复制到这个新的对象中，当然这就不是单例了
+	/*auto& instance = Random::Get();
+	instance.Float();*/
 
+	/*auto& random = Random::Get();
+	float number = random.Float();*///通过上面的设计，如果我想要生成一个随机数，我所要做的就是调用Random::Get().Float(),这样我大概会得到一个随机浮点数
+	
+	float number = Random::Float();
+
+	std::cout << number << std::endl;
 	std::cin.get();
 }
 
