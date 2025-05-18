@@ -1,7 +1,22 @@
 #include<iostream>
+#include<string>
+
+void* operator new(size_t size)
+{
+	std::cout << "Allocating " << size << " bytes\n";
+	return malloc(size);
+}
 
 int main()
 {
+	std::string name1 = "Cherno";//6个字符，符合小字符串的标准，这意味着它实际上只是存储在一个静态分配的缓冲区，根本不会触及堆内存
+//可通过右击转到定义，查看_BUF_SIZE - 1为缓冲区的大小为15，_BUF_SIZE为16，这就构成了小字符串
+//可通过重载的new，打印出8个字符
+
+	std::string name2 = "Cherno Small St";//15个字符
+
+	std::string name3 = "Cherno Small Str";
+//以上小于15的打印操作均基于debug模式，在release模式下是没有堆分配的，一旦超过16个字符，我们就会在堆上分配内存
 
 	std::cin.get();
 }
