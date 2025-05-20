@@ -34,3 +34,6 @@ int main()
 	std::string string = "Cherno";
 	std::cin.get();
 }
+
+
+//
