@@ -15,7 +15,7 @@ void* operator new(size_t size)//这串代码的意思是不要使用标准库中的new操作符，链
 {//因为new是通过这个函数运行的，所以我们很容易输入一些东西
 	//std::cout << "Allocating " << size << " bytes\n";//这样写的另一个好处是可以很容易在return设置一个断点
 
-	s_AllocationMetrics.TotalFreed += size;
+	s_AllocationMetrics.TotalAllocated += size;
 
 	return malloc(size);//因为不想影响程序运行，就只简单返回malloc(size)
 }//返回一个void指针,它只是一个内存地址
@@ -24,7 +24,7 @@ void* operator new(size_t size)//这串代码的意思是不要使用标准库中的new操作符，链
 void operator delete(void* memory, size_t size)//通过重载的delete来释放重载new的内存，并且可以同添加size的函数名，通过覆盖这个特定的函数签名来获取该信息
 {
 	//std::cout << "Freeing " << size << " bytes\n";//这样写的另一个好处是可以很容易在return设置一个断点，然后观察到它实际上是在某一作用域的析构函数，删除了其原始指针  
-
+	s_AllocationMetrics.TotalFreed += size;
 
 	free(memory);
 }
