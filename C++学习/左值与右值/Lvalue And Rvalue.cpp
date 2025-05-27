@@ -24,6 +24,34 @@ void SetValue2(const int& value)
 {
 }
 
+
+void PrintName1(std::string& name)
+{
+	std::cout << name << std::endl;
+}
+
+void PrintName2(const std::string& name)
+{
+	std::cout << name << std::endl;
+}
+
+void PrintName3(std::string&& name)//右值引用
+{
+	std::cout << name << std::endl;
+}
+/*一个&符号的是接受左值，即使在前面加上const，意思是这与右值兼容*/
+
+void PrintName4(const std::string& name)
+{
+	std::cout << "[lvalue]" << name << std::endl;
+}
+
+void PrintName4(std::string&& name)
+{
+	std::cout << "[rvalue]" << name << std::endl;
+}
+
+
 int main()
 {
 	//简单定义
@@ -59,7 +87,33 @@ int main()
 
 
 
+	std::string firstName = "Yan";
+	std::string lastName = "Chernikov";
+
+	std::string fullName = firstName + lastName;//这时等号右边是右值，左边是左值，firstName和lastName组成一个临时字符串，然后它赋值给了一个左值
+	
+	PrintName1(fullName);//这样是可以
+	//PrintName1(firstName + lastName);如果用表达式调用它是行不通的，因为这是右值
+
+	PrintName2(firstName + lastName);//这样是被允许的，这就是为什么你会看到很多用C++写的常量引用，因为它们兼容临时的右值和实际存在的左值变量
+/*因此有一个检测某个值是否为左值的方法，我们可以写一个非常量的左值引用，因为左值引用只能接受左值，就像PrintName1(firstName + lastName)不会被编译，因为这当然是一个右值*/
+
+/*我们也有办法写一个函数只接受临时对象，这需要我们使用一个叫做右值引用的东西*/
+	//PrintName3(fullName);右值引用这样是不被允许的。这里编译器会说右值引用不能绑定到左值，这意味着我们可以写这个函数的重载，它只接受临时对象
+	PrintName3(firstName + lastName);//这里是被允许的，我们不能传递左值，但可以传递右值
+
+
+	PrintName4(fullName);
+	PrintName4(firstName + lastName);
+//这里可以看到左值选择的是第一个重载，右值选择的是第二个重载
+//有了右值引用，我们现在有了一种特殊的方法来检测临时值并对它们做一些特殊的事情
+
+//这些非常有用，尤其是在移动语义方面，这里的这样优势在于优化，如果我们知道传入的是一个临时对象的话，那我们就不需要担心它们是否活着、是否完整、是否拷贝，我们可以简单地偷它的资源，给到特定对象，或者其他地方使用它们，因为我们知道它是暂时的，它不会存在很长时间
+//而如果使用常量的左值引用(const + &)，除了它是const之外，你不能从这个name字符串中窃取任何东西，因为它可能会在很多函数中使用，而PrintName(firstName + lastName)中可以，因为它显然是暂时的,只会在这个特定的printName调用中使用
+/*因此，记住，左值是有某种存储支持的变量，右值是临时值，左值引用仅仅接受左值，除非使用const，而右值引用仅仅接受右值*/
+
 	std::cin.get();
 }
 
 //很多人称左值为有地址的值(located value)
+
