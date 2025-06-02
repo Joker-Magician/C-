@@ -26,9 +26,9 @@ MaxHeap Creat(int MaxSize)
 	return H;
 }
 
-int IsFull(MaxHeap H)
+bool IsFull(MaxHeap H)
 {
-
+	return (MaxData == H->Size) ? true : false;
 }
 
 void Insert(MaxHeap H, ElementType item)
