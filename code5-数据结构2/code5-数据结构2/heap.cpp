@@ -31,6 +31,11 @@ bool IsFull(MaxHeap H)
 	return (MaxData == H->Size) ? true : false;
 }
 
+bool IsEmpty(MaxHeap H)
+{
+	
+}
+
 void Insert(MaxHeap H, ElementType item)
 {	/* 将元素item插入最大堆H,其中H->Elements[0]已经定义为哨兵 */
 	int i;
@@ -43,6 +48,33 @@ void Insert(MaxHeap H, ElementType item)
 	for (; H->Elements[i / 2] < item; i /= 2)
 		H->Elements[i] = H->Elements[i / 2];/* 向下过滤节点 */
 	H->Elements[i] = item;	/* 将item插入 */
+}
+
+ElementType Delete( MaxHeap H )
+{
+	int Parent, Child;
+	ElementType MaxItem, temp;
+	if (IsEmpty(H))
+	{
+		printf("最大堆已为空");
+		return;
+	}
+	MaxItem = H->Elements[1];
+
+	temp = H->Elements[H->Size--];
+	for (Parent = 1; Parent * 2 <= H->Size; Parent = Child)
+	{
+		Child = Parent * 2;
+		if ((Child != H->Size) && (H->Elements[Child] < H->Elements[Child + 1]))
+			Child++;
+		if (temp >= H->Elements[Child])
+			break;
+		else
+			H->Elements[Parent] = H->Elements[Child];
+	}
+	H->Elements[Parent] = temp;
+	return MaxItem;
+
 }
 
 
