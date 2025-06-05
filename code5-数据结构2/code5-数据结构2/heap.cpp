@@ -33,7 +33,7 @@ bool IsFull(MaxHeap H)
 
 bool IsEmpty(MaxHeap H)
 {
-	
+	return (H->Size == 0) ? false : true;
 }
 
 void Insert(MaxHeap H, ElementType item)
@@ -51,7 +51,7 @@ void Insert(MaxHeap H, ElementType item)
 }
 
 ElementType Delete( MaxHeap H )
-{
+{/*从最大堆H中取出键值为最大的元素，并删除一个节点*/
 	int Parent, Child;
 	ElementType MaxItem, temp;
 	if (IsEmpty(H))
@@ -59,17 +59,17 @@ ElementType Delete( MaxHeap H )
 		printf("最大堆已为空");
 		return;
 	}
-	MaxItem = H->Elements[1];
-
+	MaxItem = H->Elements[1];/*取出根节点最大值*/
+	/*用最大堆中最后一个元素从根节点开始向上过滤下层节点*/
 	temp = H->Elements[H->Size--];
 	for (Parent = 1; Parent * 2 <= H->Size; Parent = Child)
 	{
 		Child = Parent * 2;
 		if ((Child != H->Size) && (H->Elements[Child] < H->Elements[Child + 1]))
-			Child++;
+			Child++;	/*Child指向左右子节点的较大者*/
 		if (temp >= H->Elements[Child])
 			break;
-		else
+		else  /*移动temp元素到下一层*/
 			H->Elements[Parent] = H->Elements[Child];
 	}
 	H->Elements[Parent] = temp;
