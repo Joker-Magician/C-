@@ -62,7 +62,7 @@ ElementType Delete( MaxHeap H )
 	MaxItem = H->Elements[1];/*取出根节点最大值*/
 	/*用最大堆中最后一个元素从根节点开始向上过滤下层节点*/
 	temp = H->Elements[H->Size--];
-	for (Parent = 1; Parent * 2 <= H->Size; Parent = Child)
+	for (Parent = 1; Parent * 2 <= H->Size; Parent == Child)
 	{
 		Child = Parent * 2;
 		if ((Child != H->Size) && (H->Elements[Child] < H->Elements[Child + 1]))
@@ -74,7 +74,6 @@ ElementType Delete( MaxHeap H )
 	}
 	H->Elements[Parent] = temp;
 	return MaxItem;
-
 }
 
 
