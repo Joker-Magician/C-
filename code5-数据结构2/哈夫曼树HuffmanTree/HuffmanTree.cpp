@@ -84,7 +84,7 @@ void Insert(MinHeap H, ElementType item)
 }
 
 ElementType DeleteMin(MinHeap H)
-{
+{ 
 	int Parent, Child;
 	ElementType MinItem, temp;
 	if (IsEmpty(H))
@@ -92,16 +92,16 @@ ElementType DeleteMin(MinHeap H)
 		printf("最大堆已为空");
 		return;
 	}
-	MinItem = H->Elements[1];
+	MinItem = H->Elements[1]; 
 	temp = H->Elements[H->Size--];
 	for (Parent = 1; Parent * 2 <= H->Size; Parent == Child)
 	{
 		Child = Parent * 2;
 		if ((Child != H->Size) && (H->Elements[Child] < H->Elements[Child + 1]))
-			Child++;
+			Child++; 
 		if (temp >= H->Elements[Child])
 			break;
-		else
+		else 
 			H->Elements[Parent] = H->Elements[Child];
 	}
 	H->Elements[Parent] = temp;
