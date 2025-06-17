@@ -63,9 +63,9 @@ void get_nextval(SString T, int nextval[])
 	}
 }
 
-int main()
-{
-
-
-	return 0;
-}
+//int main()
+//{
+//
+//
+//	return 0;
+//}
