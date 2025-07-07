@@ -31,10 +31,20 @@ int main(void)
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
+    float positions[6] = {
+        -0.5f, -0.5f,
+         0.5f,  0.5f,
+         0.5f, -0.5f
+    };
+
+
     unsigned int buffer;
     glGenBuffers(1,&buffer);//1表示只需要一个缓冲，第二个参数需要一个无符号整型指针(因为这个函数返回void,即函数不返回生成的缓冲区id,我们需要给它提供一个整数指针,然后函数把id写入这个整数的内存,这就是为什么需要一个指针)
 /*现在我们有了一个id,一旦创建缓冲区后，我们现在就要选择那个缓冲区，并且选择(selecting)在OpenGL中称为(binding)*/
     glBindBuffer(GL_ARRAY_BUFFER, buffer);//第一个参数是目标，对我们来说这只是一个内存缓冲区，所以我们要用GL_ARRAY_BUFFER,也就是说这只是一个数组
+/*下一步就是将数据放入这个缓冲区，上面没有具体说明缓冲区的大小，只是创建了一个缓冲区，然后绑定它，则下一步是指定数据*/
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float),positions,GL_STATIC_DRAW);//再次指定目标GL_ARRAY_BUFFER,第二个参数大小是指我们希望这个缓冲区有多大，或者我们的数据有多大
+/*注意此时我们还没有准备好绘制，因为我们还没有告诉OpenGL如何绘制(即只告诉了OpenGL的数据内容，但它并不理解要做什么，大概就像顶点的链接顺序一样)*/
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -42,11 +52,8 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f( 0.5f,  0.5f);
-        glVertex2f( 0.5f, -0.5f);
-        glEnd();
+        glDrawArrays(GL_TRIANGLES,0,3);//这是一个没有索引缓冲区时可以使用的方法
+    //绘制三角形(TRIANGLES,triangles),从顶点列表的起始位置开始，所以第二个参数写0;最后一个参数count，也就是要渲染的索引的数量
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -78,3 +85,6 @@ int main(void)
 //你们所需要做的是设置一系列的状态，然后当你们说一些事情。比如，给我绘制个三角形，那是与上下文相关的，这不是在说“嘿，给我绘制个三角形”之后，然后才传给OpenGL绘制三角形所需要的东西，实际上，它已经知道它绘制三角形所需要的东西，因为那是状态的一部分
 //换句话说，我想让你选择这个缓冲区，用这个着色器，然后给我绘制个三角形，然后根据你选择的缓冲区和着色器决定绘制什么样的三角形，绘制在哪里等等
 //那就是OpenGL的原理，它是一个状态机
+
+
+//推荐一个最好的查看OpenGL的网站：docs.gl
