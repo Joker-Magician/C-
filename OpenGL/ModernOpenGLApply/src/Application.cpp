@@ -46,9 +46,16 @@ int main(void)
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float),positions,GL_STATIC_DRAW);//再次指定目标GL_ARRAY_BUFFER,第二个参数大小是指我们希望这个缓冲区有多大，或者我们的数据有多大
 /*注意此时我们还没有准备好绘制，因为我们还没有告诉OpenGL如何绘制(即只告诉了OpenGL的数据内容，但它并不理解要做什么，大概就像顶点的链接顺序一样)*/
 
-//glVertexAttribPointer()
-    glVertexAttribPointer();
-
+//要启用或禁用通用的顶点属性组需要调用glEnableVertexAttribArray(),不然会出现黑屏，OpenGL只是一个状态机，它不会检查它是否被启用;这个函数仅需要传入索引量
+//只要你的实际缓冲区是绑定的，你可以在任何地方去调用它，这里一般习惯在指针前去做这个
+    glEnableVertexAttribArray(0);
+//glVertexAttribPointer(GLuint index,GLint size, GLenum type,GLsizei stride,const GLvoid* pointer)需要的参数index(索引),size(大小),type(类型),normalized(标准化),stride(步幅),pointer(指针)，其中index为寻找你属性(attributes)的索引是什么
+//size指的是每个通用顶点属性的组件数，它只能是1,2,3,4,所以这个size和字节没有任何关系或者和它们实际占用多少内存也没关系，它只是计数
+//normalized(标准化)，这个不需要特别担心，如果我们处理的是浮点数，因为它们已经被规范化了，但这基本上是用来，假设我们需要指定一个字节在0到255之间，因为这是我们颜色的值，他需要被规范到0到1之间，在我们的实际着色器中作为一个浮点数(这不是我们可以在CPU上做的，我们可以让OpenGL来做)，所以我们把这个设为false,或是指定的GL_FALSE
+//stride指针，stride就是连续通用顶点属性之间的字节偏移量，基本上stride就是每个顶点之间的字节数
+//pointer,是第一个组件的一个偏移量，pointer是指向实际属性的指针
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);//因为这个仅有一个属性，所以不需要偏移到下一个属性所以最后pointer为0(记住指针也仅是一个数字)
+     
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
