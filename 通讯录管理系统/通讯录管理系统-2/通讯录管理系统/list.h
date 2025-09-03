@@ -11,8 +11,8 @@
 #include<string>
 #include<cstring>
 
-#define x_graph 800
-#define y_graph 600
+#define x_graph 905
+#define y_graph 678.75
 #define start_x 295
 #define start_y 75
 #define item_height 30
@@ -53,5 +53,6 @@ void outimage(const int x, const int y, const char* postion);
 
 void saveToFile(List* pList, const char* filename);
 void loadFromFile(List* pList, const char* filename);
+void showPaged(List* pList, int pageSize);
 
 #endif
