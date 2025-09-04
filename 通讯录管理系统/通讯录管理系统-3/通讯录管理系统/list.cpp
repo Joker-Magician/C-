@@ -169,7 +169,7 @@ void searchByPhone(List* pList, const char* phone)
 void update(List* pList, const char* name, const char* newPhone)
 {
 	auto it = pList->nameMap.find(std::string(name));
-	if (it != pList->nameMap.end()); {
+	if (it != pList->nameMap.end()) {
 		Node* p = it->second;
 		pList->phoneMap.erase(std::string(p->phone));
 		strcpy(p->phone, newPhone);

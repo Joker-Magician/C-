@@ -13,7 +13,7 @@
 #include<vector>
 
 #define x_graph 905
-#define y_graph 678.75
+#define y_graph 679
 #define start_x 295
 #define start_y 75
 #define item_height 30
@@ -63,16 +63,17 @@ void loadFromFile(List* pList, const char* filename);
 
 //void drawMenu();
 //void handleInput(List* pList);
-//void safeFgets(char* str, int size);
-//void displayMessage(const char* message);
-//void drawCenteredText(int x, int y, int width, const char* text);
-//void outimage(const int x, const int y, const char* postion);
+
+void safeFgets(char* str, int size);
+void displayMessage(const char* message);
+void drawCenteredText(int x, int y, int width, const char* text);
+void outimage(const int x, const int y, const char* postion);
 
 // 核心UI函数
 void UIMainLoop(List * pList);
-void initializeMenuItems();
+void InitializeMenuItems();
 void drawMenu(int hoverItem, int clickItem);
-void handleMouseClick(List* pList, int x, int y);
+void handkeMouseClick(List* pList, int x, int y);
 void GraphicalInput(char* buffer, int bufferSize, int x, int y, int width, int height);
 
 // 各功能界面的入口函数
@@ -90,7 +91,7 @@ void showPagedUI(List* pList);
 
 // 辅助绘图函数
 void safeFgets(char* str, int size); // 这个函数现在不再需要，但保留以兼容旧代码
-void displayMessage(const char* message, int duration = 1000); // 增加了默认延时参数
+void displayMessage(const char* message); // 增加了默认延时参数
 void drawCenteredText(int x, int y, int width, const char* text);
 void outimage(const int x, const int y, const char* postion);
 
