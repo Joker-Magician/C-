@@ -6,6 +6,37 @@
 #include <string>
 #include <sstream>
 
+//断言函数 //__就表示是编译器特有的,注意这是编译器的固有特性，不同的编译器函数不同，这里用的是MSVC//表示如果是false，我要调用一函数基本上就会在代码中插入一个断点然后中断调试器
+#define ASSERT(x) if (!(x)) __debugbreak(); 
+#define GLCall(x) GLClearError();\
+	x;\
+	ASSERT(GLLogCall(#x, __FILE__,__LINE__ ))
+
+static void GLClearError()
+{
+	while (glGetError() != GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char* function, const char* file, int line)
+{ 
+	while (GLenum error = glGetError())
+	{
+		std::cout << "[OpenGL_Error](" << error << "): " << function <<
+			" " << file << ":" << line << std::endl;
+		return false;
+	}
+	return true;
+}
+
+
+//static void GLCheckError()
+//{ //glGetError()返回一个GL_ENUM类型的值，且该函数适配所有版本的OpenGL
+//	while (GLenum error = glGetError())
+//	{
+//		std::cout << "[OpenGL_Error](" << error << ")" << std::endl;
+//	}
+//}
+
 struct ShaderProgramSource
 {
 	std::string VertexSource;
@@ -145,8 +176,16 @@ int main(void)
 
 		/* Swap front and back buffers */
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);//注意这里一定要是GL_UNSIGNED_INT无符号类型，GL_INT是不会打印出任何图像的
 		
+		/*GLClearError();
+		glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr);
+		ASSERT(GLLogCall());*/
+		//GLCheckError();//首先清除所有错误，为了确保我们不hi从其他函数得到其他任何错误，然后调用实际的函数，再然后就是检查错误，这样我们可以确保所有的错误实际上都是来自这个函数
+//这样会在打印出1280，将其转化为十六进制的500后，在该文档glfw.h搜索，就会得到无效枚举
+
+		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_INT, nullptr));
+
 		glfwSwapBuffers(window);
 
 		/* Poll for and process events */
