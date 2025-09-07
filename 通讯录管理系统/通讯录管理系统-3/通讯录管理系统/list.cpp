@@ -237,11 +237,13 @@ void fuzzySearchByName(List* pList, const char* part)
 {
 	Node* p = pList->head;
 	int found = 0, y = 50, index = 1;
+	cleardevice();
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
+	FlushBatchDraw();
 	for (; p; p = p->next) {
 		if (strstr(p->name, part)) {
-			cleardevice();
+			//cleardevice();
 			char buffer[100];
 			sprintf(buffer, "%d. 姓名：%s，电话：%s", index++, p->name, p->phone);
 			outtextxy(50, y, buffer);
@@ -259,11 +261,14 @@ void fuzzySearchByPhone(List* pList, const char* part)
 {
 	Node* p = pList->head;
 	int found = 0, y = 50, index = 1;
+
+	cleardevice();
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
+	FlushBatchDraw();
 	for (; p; p = p->next) {
 		if (strstr(p->phone, part)) {
-			cleardevice();
+			//cleardevice();
 			char buffer[100];
 			sprintf(buffer, "%d. 姓名：%s，电话：%s", index++, p->name, p->phone);
 			outtextxy(50, y, buffer);
@@ -309,6 +314,8 @@ void showPaged(List* pList, int pageSize)
 		char footer[100];
 		sprintf(footer, "第 %d/%d 页，n:下一页 p:上一页 q:退出", page + 1, totalPages);
 		outtextxy(50, 400, footer);
+
+		FlushBatchDraw();
 
 		//等待用户输入
 		char ch = _getch();

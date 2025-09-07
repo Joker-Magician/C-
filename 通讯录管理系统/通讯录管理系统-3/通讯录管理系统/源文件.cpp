@@ -185,5 +185,6 @@ void displayMessage(const char* message)
 	settextcolor(0x4299E1);
 	settextstyle(20, 0, "ËÎÌו");
 	outtextxy(50, 50, message);
+	FlushBatchDraw();
 	Sleep(1000);
 }

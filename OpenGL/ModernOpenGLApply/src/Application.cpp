@@ -33,7 +33,7 @@ int main(void)
 
     float positions[6] = { //这只是位置而不是顶点，所以叫做position
         -0.5f, -0.5f,
-         0.5f,  0.5f,
+         0.0f,  0.5f,
          0.5f, -0.5f
     };
 

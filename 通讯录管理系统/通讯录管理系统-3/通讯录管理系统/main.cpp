@@ -93,6 +93,8 @@ void GraphicalInput(char* buffer, int bufferSize, int x, int y, int width, int h
 		settextstyle(20, 0, "宋体");
 		outtextxy(x + 5, y + (height - textheight('A')) / 2, displayBuffer);
 
+		FlushBatchDraw();
+
 		if (_kbhit()) {
 			int key = _getch();
 			if (key == '\r') break;//回车键，结束输入
@@ -125,18 +127,18 @@ void handkeMouseClick(List* pList, int clickX, int clickY)
 
 			//根据ID执行相应操作
 			switch (item.id) {
-			case 1: addContactUI(pList);			break;
-			case 2: getContactUI(pList);			break;
-			case 3: insertContactUI(pList);			break;
-			case 4: deleteContactUI(pList);			break;
-			case 5: showContactsUI(pList);			break;
-			case 6: searchByPhoneUI(pList);			break;
-			case 7: updateContactUI(pList);			break;
-			case 8: cleardevice(); displayMessage("按姓名排序"); sortByName(pList);	break;
-			case 9: cleardevice(); displayMessage("按电话排序"); sortByPhone(pList);	break;
-			case 10: fuzzySearchByNameUI(pList);	break;
-			case 11: fuzzySearchByPhoneUI(pList);	break;
-			case 12: showPagedUI(pList);			break;
+			case 1:  addContactUI(pList);				break;
+			case 2:  getContactUI(pList);				break;
+			case 3:  insertContactUI(pList);			break;
+			case 4:  deleteContactUI(pList);			break;
+			case 5:  showContactsUI(pList);				break;
+			case 6:  searchByPhoneUI(pList);			break;
+			case 7:  updateContactUI(pList);			break;
+			case 8:  cleardevice(); displayMessage("按姓名排序"); sortByName(pList);	break;
+			case 9:  cleardevice(); displayMessage("按电话排序"); sortByPhone(pList);	break;
+			case 10: fuzzySearchByNameUI(pList);		break;
+			case 11: fuzzySearchByPhoneUI(pList);		break;
+			case 12: showPagedUI(pList);				break;
 			case 13:
 				saveToFile(pList, "联系人.txt");
 				freeList(pList);
@@ -231,9 +233,11 @@ void addContactUI(List* pList)
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入姓名：");
+	FlushBatchDraw();
 	GraphicalInput(name, sizeof(name), 200, 95, 300, 30);
 
 	outtextxy(50, 150, "请输入电话：");
+	FlushBatchDraw();
 	GraphicalInput(phone, sizeof(phone), 200, 145, 300, 30);
 
 	add(pList, name, phone);
@@ -249,6 +253,7 @@ void getContactUI(List* pList)
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入姓名：");
+	FlushBatchDraw();
 	GraphicalInput(name, sizeof(name), 200, 95, 300, 30);
 
 	get(pList, name);
@@ -264,13 +269,16 @@ void insertContactUI(List* pList) {
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入插入位置(数字):");
+	FlushBatchDraw();
 	GraphicalInput(pos_str, sizeof(pos_str), 300, 95, 100, 30);
 	position = atoi(pos_str);
 
 	outtextxy(50, 150, "请输入姓名:");
+	FlushBatchDraw();
 	GraphicalInput(name, sizeof(name), 200, 145, 300, 30);
 
 	outtextxy(50, 200, "请输入电话:");
+	FlushBatchDraw();
 	GraphicalInput(phone, sizeof(phone), 200, 195, 300, 30);
 
 	insert(pList, position, name, phone);
@@ -285,6 +293,7 @@ void deleteContactUI(List* pList) {
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入要删除的姓名:");
+	FlushBatchDraw();
 	GraphicalInput(name, sizeof(name), 280, 95, 300, 30);
 
 	del(pList, name);
@@ -294,8 +303,11 @@ void deleteContactUI(List* pList) {
 void showContactsUI(List* pList) {
 	cleardevice();
 	displayMessage("所有联系人 (按任意键返回)");
+	cleardevice();
 	show(pList); // 原有的show函数本身就是图形化输出
 	
+	FlushBatchDraw();
+
 	ExMessage msg;
 	while (true) {
 		// 获取任意消息
@@ -323,6 +335,7 @@ void searchByPhoneUI(List* pList) {
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入电话号码:");
+	FlushBatchDraw();
 	GraphicalInput(phone, sizeof(phone), 250, 95, 300, 30);
 
 	searchByPhone(pList, phone);
@@ -337,9 +350,11 @@ void updateContactUI(List* pList) {
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入姓名:");
+	FlushBatchDraw();
 	GraphicalInput(name, sizeof(name), 200, 95, 300, 30);
 
 	outtextxy(50, 150, "请输入新的电话:");
+	FlushBatchDraw();
 	GraphicalInput(newPhone, sizeof(newPhone), 250, 145, 300, 30);
 
 	update(pList, name, newPhone);
@@ -350,15 +365,21 @@ void fuzzySearchByNameUI(List* pList) {
 	char part[50];
 	cleardevice();
 	displayMessage("模糊查找(姓名)");
+	FlushBatchDraw();
 
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入部分姓名:");
+	FlushBatchDraw();
 	GraphicalInput(part, sizeof(part), 250, 95, 300, 30);
 
 	fuzzySearchByName(pList, part);
-	
+	FlushBatchDraw();
+
 	ExMessage msg;
+	while (peekmessage(&msg, EX_KEY)) {
+		// 什么也不做，只是把队列里的消息取出来丢掉
+	}
 	while (true) {
 		// 获取任意消息
 		if (peekmessage(&msg, EX_KEY)) {
@@ -375,15 +396,21 @@ void fuzzySearchByPhoneUI(List* pList) {
 	char part[20];
 	cleardevice();
 	displayMessage("模糊查找(电话)");
+	FlushBatchDraw();
 
 	settextcolor(BLACK);
 	settextstyle(20, 0, "宋体");
 	outtextxy(50, 100, "请输入部分电话:");
+	FlushBatchDraw();
 	GraphicalInput(part, sizeof(part), 250, 95, 300, 30);
 
 	fuzzySearchByPhone(pList, part);
-	
+	FlushBatchDraw();
+
 	ExMessage msg;
+	while (peekmessage(&msg, EX_KEY)) {
+		// 什么也不做，只是把队列里的消息取出来丢掉
+	}
 	while (true) {
 		// 获取任意消息
 		if (peekmessage(&msg, EX_KEY)) {
