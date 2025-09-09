@@ -319,10 +319,14 @@ void showPaged(List* pList, int pageSize)
 
 		//等待用户输入
 		char ch = _getch();
-		if (ch == 'n' || ch == 'N') 
-		{ if (page < totalPages - 1) page++; }
+		if (ch == 'n' || ch == 'N')
+		{
+			if (page < totalPages - 1) page++;
+		}
 		else if (ch == 'p' || ch == 'P')
-		{ if (page > 0) page--; }
+		{
+			if (page > 0) page--;
+		}
 		else if (ch == 'q' || ch == 'Q') {
 			break;
 		}

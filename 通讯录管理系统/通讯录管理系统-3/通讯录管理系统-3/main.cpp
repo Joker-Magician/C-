@@ -14,10 +14,10 @@ void InitializeMenuItems()
 		"10. 按姓名模糊查找", "11. 按电话模糊查找", "12. 分页显示联系人", "0. 退出系统"
 	};
 	const char* icons[] = {
-		"./add_contact.png", "./get_contact.png", "./insert_contact.png",
-		"./delete_contact.png", "./show_contacts.png", "./search_phone.png",
-		"./update_phone.png", "./sort_name.png", "./sort_phone.png",
-		"./fuzzy_name.png", "./fuzzy_phone.png", "./show_paged.png", "./exit.png"
+		"./res/add_contact.png", "./res/get_contact.png", "./res/insert_contact.png",
+		"./res/delete_contact.png", "./res/show_contacts.png", "./res/search_phone.png",
+		"./res/update_phone.png", "./res/sort_name.png", "./res/sort_phone.png",
+		"./res/fuzzy_name.png", "./res/fuzzy_phone.png", "./res/show_paged.png", "./res/exit.png"
 	};
 
 	for (int i = 0; i < 13; ++i) {
@@ -305,7 +305,7 @@ void showContactsUI(List* pList) {
 	displayMessage("所有联系人 (按任意键返回)");
 	cleardevice();
 	show(pList); // 原有的show函数本身就是图形化输出
-	
+
 	FlushBatchDraw();
 
 	ExMessage msg;

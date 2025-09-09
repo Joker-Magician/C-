@@ -70,7 +70,7 @@ void drawCenteredText(int x, int y, int width, const char* text);
 void outimage(const int x, const int y, const char* postion);
 
 // ºËÐÄUIº¯Êý
-void UIMainLoop(List * pList);
+void UIMainLoop(List* pList);
 void InitializeMenuItems();
 void drawMenu(int hoverItem, int clickItem);
 void handkeMouseClick(List* pList, int x, int y);
