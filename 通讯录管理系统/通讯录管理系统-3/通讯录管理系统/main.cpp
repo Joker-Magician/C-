@@ -63,9 +63,9 @@ void drawMenu(int hoverItem = -1, int clickItem = -1)
 
 	settextcolor(0x4299E1);
 	settextstyle(16, 0, "宋体");
-	outtextxy(20, 555, "************************************************************************************************");
+	outtextxy(20, 455, "************************************************************************************************");
 	settextstyle(25, 0, "宋体");
-	outtextxy(20, 575, "请使用鼠标点击菜单项进行操作。");
+	outtextxy(20, 475, "请使用鼠标点击菜单项进行操作。");
 }
 
 //纯图形化输入框
@@ -396,6 +396,131 @@ void fuzzySearchByPhoneUI(List* pList) {
 	char part[20];
 	cleardevice();
 	displayMessage("模糊查找(电话)");
+
+	int y = search_start_y;
+	for (int i = 0; i < 4; ++i) {
+		MenuItem item;
+		item.id = i + 1;
+		item.text = labels[i];
+		item.rect = { search_start_x, y, search_start_x + search_item_width, y + search_item_height };
+		searchItems.push_back(item);
+		y += search_item_height + search_spacing;
+	}
+
+	drawSearchMenu(searchItems);
+
+	ExMessage msg;
+	int hoverItemId = -1;
+	while (true) {
+		if (peekmessage(&msg, EM_MOUSE)) {
+			//悬停效果
+			int currentHover = -1;
+			for (const auto& item : searchItems) {
+				if (msg.x >= item.rect.left && msg.x <= item.rect.right &&
+					msg.y >= item.rect.top && msg.y <= item.rect.bottom) {
+					currentHover = item.id;
+					break;
+				}
+			}			
+			// 如果悬停的按钮改变了，就重绘界面以显示效果
+			if (currentHover != hoverItemId) {
+				hoverItemId = currentHover;
+				drawSearchMenu(searchItems, hoverItemId);
+			}
+
+			//点击效果
+			if (msg.message == WM_LBUTTONDOWN && hoverItemId != -1) {
+				drawSearchMenu(searchItems, -1, hoverItemId);
+				Sleep(150);
+
+				char inputBuffer[50] = { 0 };
+				switch (hoverItemId) {
+				case 1: 
+					cleardevice();
+					displayMessage("精确查找(姓名)");
+					outtextxy(50, 100, "请输入要精确查找的姓名：");
+					GraphicalInput(inputBuffer, sizeof(inputBuffer), 300, 95, 300, 30);
+					get(pList, inputBuffer); 
+					Sleep(2000);
+					return; 
+				case 2: 
+					cleardevice();
+					displayMessage("精确查找(电话)");
+					outtextxy(50, 100, "请输入要精确查找的电话:");
+					GraphicalInput(inputBuffer, sizeof(inputBuffer), 300, 95, 300, 30);
+					searchByPhone(pList, inputBuffer);
+					Sleep(2000);
+					return;
+				case 3: 
+					cleardevice();
+					displayMessage("模糊查找(姓名)");
+					outtextxy(50, 100, "请输入部分姓名进行模糊查找:");
+					GraphicalInput(inputBuffer, sizeof(inputBuffer), 350, 95, 300, 30);
+					fuzzySearchByName(pList, inputBuffer);
+					
+					settextcolor(RED);
+					outtextxy(50, 500, "按任意键返回主菜单...");
+					FlushBatchDraw();
+					_getch();
+					return;
+				case 4: 
+					cleardevice();
+					displayMessage("模糊查找(电话)");
+					outtextxy(50, 100, "请输入部分电话进行模糊查找:");
+					GraphicalInput(inputBuffer, sizeof(inputBuffer), 350, 95, 300, 30);
+					fuzzySearchByPhone(pList, inputBuffer);
+					
+					settextcolor(RED);
+					outtextxy(50, 500, "按任意键返回主菜单...");
+					FlushBatchDraw();
+					_getch();
+					return;
+				}
+			}
+		}
+		if (_kbhit()) {
+			if (_getch() == 27) { //27为ESC键的ASCII码
+				return;
+			}
+		}
+		Sleep(10);
+	}
+}
+
+void drawSearchMenu(const std::vector<MenuItem>& items, int hoverId, int clickId)
+{
+	cleardevice();
+	//绘制标题
+	settextcolor(0x4299E1);
+	settextstyle(28, 0, "微软雅黑");
+	drawCenteredText(0, 50, x_graph, "查找联系人 - 请选择方式");
+
+	//遍历并绘制所有按钮
+	for (const auto& item : items) {
+		LOGFONT f;
+		gettextstyle(&f);
+		f.lfWeight = FW_NORMAL;
+		settextstyle(&f);
+		settextcolor(COLOR_NORMAL);
+
+		//如果悬停，改变颜色和样式
+		if (item.id == hoverId) {
+			f.lfWeight = FW_BOLD;
+			settextstyle(&f);
+			settextcolor(COLOR_HOVER);//蓝色
+		}
+
+		if (item.id == clickId) {
+			settextcolor(COLOR_CLICK);
+		}
+
+		settextstyle(20, 0, "宋体");
+		setfillcolor(WHITE);
+		solidrectangle(item.rect.left, item.rect.top, item.rect.right, item.rect.bottom);
+		rectangle(item.rect.left, item.rect.top, item.rect.right, item.rect.bottom);
+		outtextxy(item.rect.left + 20, item.rect.top + (search_item_height - textheight('A')) / 2, item.text);
+	}
+
 	FlushBatchDraw();
 
 	settextcolor(BLACK);

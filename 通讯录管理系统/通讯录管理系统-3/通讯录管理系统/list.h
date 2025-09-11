@@ -12,8 +12,8 @@
 #include<cstring>
 #include<vector>
 
-#define x_graph 905
-#define y_graph 679
+#define x_graph 800
+#define y_graph 600
 #define start_x 295
 #define start_y 75
 #define item_height 30
