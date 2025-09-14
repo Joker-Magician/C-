@@ -64,9 +64,9 @@ void drawMenu(int hoverItem = -1, int clickItem = -1)
 
 	settextcolor(0x4299E1);
 	settextstyle(16, 0, "宋体");
-	outtextxy(20, 555, "************************************************************************************************");
+	outtextxy(20, 455, "************************************************************************************************");
 	settextstyle(25, 0, "宋体");
-	outtextxy(20, 575, "请使用鼠标点击菜单项进行操作。");
+	outtextxy(20, 475, "请使用鼠标点击菜单项进行操作。");
 }
 
 //纯图形化输入框
@@ -333,83 +333,104 @@ void updateContactUI(List* pList) {
 void searchContactUI(List* pList)
 {
 	std::vector<MenuItem> searchItems;
- 	const char* labels[] = {
-		"1. 按姓名精确查找",
-		"2. 按电话精确查找",
-		"3. 按姓名模糊查找",
-		"4. 按电话模糊查找"
+	const char* labels[] = {
+	   "1. 按姓名精确查找",
+	   "2. 按电话精确查找",
+	   "3. 按姓名模糊查找",
+	   "4. 按电话模糊查找"
 	};
 
+	int y = search_start_y;
+	for (int i = 0; i < 4; ++i) {
+		MenuItem item;
+		item.id = i + 1;
+		item.text = labels[i];
+		item.rect = { search_start_x, y, search_start_x + search_item_width, y + search_item_height };
+		searchItems.push_back(item);
+		y += search_item_height + search_spacing;
+	}
 
+	drawSearchMenu(searchItems);
 
 	ExMessage msg;
+	int hoverItemId = -1;
 	while (true) {
-		if (peekmessage(&msg, EM_MOUSE) && msg.message == WM_LBUTTONDOWN) {
-			int clicked_button = -1;
-
-			for (int i = 0; i < 4; ++i) {
-				if (msg.x >= buttons[i].left && msg.x <= buttons[i].right &&
-					msg.y >= buttons[i].top && msg.y <= buttons[i].bottom) {
-					clicked_button = i;
-					break;
+		if (peekmessage(&msg, EM_MOUSE)) {
+			int currentHover = -1;
+			for (const auto& item : searchItems) {
+				if (msg.x >= item.rect.left && msg.x <= item.rect.right &&
+					msg.y >= item.rect.top && msg.y <= item.rect.bottom) {
+					currentHover = item.id;
+					break; 
 				}
 			}
 
-			if (clicked_button != -1) {
+			if (currentHover != hoverItemId) {
+				hoverItemId = currentHover;
+				drawSearchMenu(searchItems, hoverItemId);
+			}
+
+			//点击效果
+			if (msg.message == WM_LBUTTONDOWN && hoverItemId != -1) {
+				drawSearchMenu(searchItems, -1, hoverItemId);
+				Sleep(150);
+
 				char inputBuffer[50] = { 0 };
-				const char* prompt = "";
-
-				cleardevice(); 
-
-				switch (clicked_button) {
-				case 0: 
-					prompt = "请输入要精确查找的姓名:";
+				switch (hoverItemId) {
+				case 1:
+					cleardevice();
 					displayMessage("精确查找(姓名)");
-					outtextxy(50, 100, prompt);
+					outtextxy(50, 100, "请输入要精确查找的姓名：");
 					GraphicalInput(inputBuffer, sizeof(inputBuffer), 300, 95, 300, 30);
-					get(pList, inputBuffer); 
+					get(pList, inputBuffer);
 					Sleep(2000);
-					return; 
-				case 1: 
-					prompt = "请输入要精确查找的电话:";
+					return;
+				case 2:
+					cleardevice();
 					displayMessage("精确查找(电话)");
-					outtextxy(50, 100, prompt);
+					outtextxy(50, 100, "请输入要精确查找的电话:");
 					GraphicalInput(inputBuffer, sizeof(inputBuffer), 300, 95, 300, 30);
-					searchByPhone(pList, inputBuffer); 
+					searchByPhone(pList, inputBuffer);
 					Sleep(2000);
 					return;
-				case 2: 
-					prompt = "请输入部分姓名进行模糊查找:";
+				case 3:
+					cleardevice();
 					displayMessage("模糊查找(姓名)");
-					outtextxy(50, 100, prompt);
+					outtextxy(50, 100, "请输入部分姓名进行模糊查找:");
 					GraphicalInput(inputBuffer, sizeof(inputBuffer), 350, 95, 300, 30);
-					fuzzySearchByName(pList, inputBuffer); 
+					fuzzySearchByName(pList, inputBuffer);
 
 					settextcolor(RED);
 					outtextxy(50, 500, "按任意键返回主菜单...");
 					FlushBatchDraw();
-					_getch(); 
+					_getch();
 					return;
-				case 3: 
-					prompt = "请输入部分电话进行模糊查找:";
+				case 4:
+					cleardevice();
 					displayMessage("模糊查找(电话)");
-					outtextxy(50, 100, prompt);
+					outtextxy(50, 100, "请输入部分电话进行模糊查找:");
 					GraphicalInput(inputBuffer, sizeof(inputBuffer), 350, 95, 300, 30);
-					fuzzySearchByPhone(pList, inputBuffer); 
+					fuzzySearchByPhone(pList, inputBuffer);
 
 					settextcolor(RED);
 					outtextxy(50, 500, "按任意键返回主菜单...");
 					FlushBatchDraw();
-					_getch(); 
+					_getch();
 					return;
 				}
 			}
 		}
-		Sleep(10);
+		if (_kbhit()) {
+			if (_getch() == 27) { //27为ESC键的ASCII码
+				return;
+			}
+		}
+		Sleep(1);
 	}
 }
 
-void drawSearchMenu(const std::vector<MenuItem>& items, int hoverId = -1, int clickId = -1)
+
+void drawSearchMenu(const std::vector<MenuItem>& items, int hoverId, int clickId)
 {
 	cleardevice();
 	//绘制标题
@@ -424,12 +445,6 @@ void drawSearchMenu(const std::vector<MenuItem>& items, int hoverId = -1, int cl
 		f.lfWeight = FW_NORMAL;
 		settextstyle(&f);
 		settextcolor(COLOR_NORMAL);
-
-		if (item.id == hoverId) {
-			f.lfWeight = FW_BOLD;//加粗
-			settextstyle(&f);
-			settextcolor(COLOR_NORMAL);
-		}
 
 		//如果悬停，改变颜色和样式
 		if (item.id == hoverId) {

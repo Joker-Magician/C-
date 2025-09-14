@@ -6,26 +6,7 @@
 #include <string>
 #include <sstream>
 
-#define ASSERT(x) if (!(x)) __debugbreak(); 
-#define GLCall(x) GLClearError();\
-	x;\
-	ASSERT(GLLogCall(#x, __FILE__,__LINE__ ))
-
-static void GLClearError()
-{
-	while (glGetError() != GL_NO_ERROR);
-}
-
-static bool GLLogCall(const char* function, const char* file, int line)
-{
-	while (GLenum error = glGetError())
-	{
-		std::cout << "[OpenGL_Error](" << error << "): " << function <<
-			" " << file << ":" << line << std::endl;
-		return false;
-	}
-	return true;
-}
+#include "Renderer.h"
 
 struct ShaderProgramSource
 {
@@ -113,10 +94,9 @@ int main(void)
 	if (!glfwInit())
 		return -1;
 
-	//告诉GLFW我想要创建一个上下文，这个OpenGL上下文，并且我想要在这个上下文中用核心配置文件创建这个窗口
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // 这个函数表示我希望我的主要版本时OpenGL 3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // 次版本是3，所以是OpenGL3.3
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //设置我的OpenGl配置是核心配置文件,现在有了兼容配置文件(COMPAT)可以正常运行，而直接(未绑定id)设为核心配置文件(CORE)则GLCall会报错,这需要显式的创建一个vao
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -129,7 +109,7 @@ int main(void)
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	glfwSwapInterval(1); 
+	glfwSwapInterval(1);
 
 	if (glewInit() != GLEW_OK)
 		std::cout << "Error!" << std::endl;
@@ -148,13 +128,12 @@ int main(void)
 		2, 3, 0
 	};
 
-	//显式的创建一个vao
-	unsigned int vao; // 保存实际的顶点数组对象id
-	GLCall(glGenVertexArrays(1, &vao));//生成其中一个，然后将那个id保存在vao变量中
-	GLCall(glBindVertexArray(vao)); //绑定对象的id
+	unsigned int vao; 
+	GLCall(glGenVertexArrays(1, &vao));
+	GLCall(glBindVertexArray(vao)); 
 
 	unsigned int buffer;
-	GLCall(glGenBuffers(1, &buffer));///实际上这一行通过上面的vao链接到了缓冲区
+	GLCall(glGenBuffers(1, &buffer));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
 	GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
@@ -171,15 +150,13 @@ int main(void)
 	GLCall(glUseProgram(shader));
 
 	GLCall(int location = glGetUniformLocation(shader, "u_Color"));
-	ASSERT(location != -1); 
+	ASSERT(location != -1);
 	GLCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f));
 
-	//解绑所有
-	GLCall(glBindVertexArray(0));//将绑定顶点数组为0
+	GLCall(glBindVertexArray(0));
 	GLCall(glUseProgram(0));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-// 这里解绑的基本上左右东西，则当需要绘制时，就需要绑定我们需要的所有东西，让这个绘制元素工作，这样才能正确地渲染所有东西，这将包括设置我们可能需要的任何一种状态
 
 	float r = 0.0f;
 	float increment = 0.05f;
@@ -189,26 +166,13 @@ int main(void)
 		/* Render here */
 		GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-		GLCall(glUseProgram(shader)); // 绑定着色器
-		GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f)); // 绑定好后设置统一变量
-		
-		///GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer)); // 绑定缓冲区
-		///GLCall(glEnableVertexAttribArray(0)); // 设置顶点缓冲区的布局
-		///GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
-//有了上面创建的vao后，就不再需要上面的操作了
+		GLCall(glUseProgram(shader)); 
+		GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f)); 
 
 		GLCall(glBindVertexArray(vao));
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)); //绑定索引缓冲区
+		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)); 
 
 		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-	//最后调用glDrawElements，这样才能在解绑所有后成功渲染
-
-		//	我们每次都需要这样做，因为他们可能已经改变了，如果我们用不同的布局绘制另一个对象，
-	//所以顶点数组对象实际上就是包含这种状态的对象，因此，如果我们正确地利用顶点数组对象，例如为几何体的每个部分创建不同的顶点数组对象，我们实际上在绘制的或者基本上在每个DrawCall指令发出时
-	//然后理论上我们只需要绑定顶点数组对象。 因为顶点数组对象将包含顶点缓冲区之间的绑定以及实际上的顶点规范或顶点到布局
-	//换句话说，VertexArribPointer实际上会绑定一个实际的顶点缓冲区和数组缓冲区，所以一些东西绑定到这个GL_ARRAY_BUFFER插槽，它会将其与具有该规范的实际层绑定
-	///因此绘制方式的改变从绑定我们的着色器、绑定我们的顶点缓冲区、设置顶点布局、绑定我们的索引缓冲区，然后实际发出那个DrawCall指令 --变成了-->
-	///绑定我们的着色器、绑定顶点数组、然后绑定索引缓冲区，最终发出DrawCall指令
 
 		if (r > 1.0f)
 			increment = -0.05f;
@@ -229,6 +193,3 @@ int main(void)
 	glfwTerminate();
 	return 0;
 }
-
-//顶点数组(Vertex Array)，是OpenGL的一个特殊之处(也可以说是OpenGL的一个原始接口)
-//他们基本上是一种通过一种特定的规范绑定顶点缓冲区的方式，用于那个实际顶点缓冲区的布局
