@@ -11,4 +11,6 @@ public:
 						//可以使用size和count来区分这两个词，当使用size时，它几乎总是以字节为单位(如果不是可以留下注释)，但是size表示字节数,count表示元素数,如绘制正方形需要六个索引，六个索引意味着写6，那就是统计，没有写6*4=24 ，那会是size
 	void Bind() const;
 	void Unbind() const;
+
+	inline unsigned int GetCount() const { return m_Count; }
 };
