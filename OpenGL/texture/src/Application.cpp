@@ -13,6 +13,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -45,10 +46,10 @@ int main(void)
 	std::cout << glGetString(GL_VERSION) << std::endl;
 	{
 		float positions[] = {
-			-0.5f, -0.5f,// 0
-			 0.5f, -0.5f,// 1
-			 0.5f,  0.5f,// 2
-			-0.5f,  0.5f,// 3
+			-0.5f, -0.5f, 0.0f, 0.0f, // 0 ,添加了另一个vec2(0,0),为每个顶点添加两个浮点数，这是我们的纹理坐标
+			 0.5f, -0.5f, 1.0f, 0.0f, // 1
+			 0.5f,  0.5f, 1.0f, 1.0f, // 2
+			-0.5f,  0.5f, 0.0f, 1.0f  // 3
 		};
 
 		unsigned int indices[] = { //构建索引缓冲区
@@ -57,9 +58,11 @@ int main(void)
 		};
 
 		VertexArray va;
-		VertexBuffer vb(positions, 4 * 2 * sizeof(float)); //在抽象后，这里就自动绑定了
+		VertexBuffer vb(positions, 4 * 4 * sizeof(float)); //在抽象后，这里就自动绑定了
+		
 		VertexBufferLayout layout;
-		layout.Push<float>(2);
+		layout.Push<float>(2);		
+		layout.Push<float>(2); //推入新增的浮点数
 		va.AddBuffer(vb, layout);
 
 		IndexBuffer ib(indices, 6);
@@ -67,6 +70,10 @@ int main(void)
 		Shader shader("res/shaders/Basic.shader");
 		shader.Bind();
 		shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+
+		Texture texture("res/textures/Clogo.png");
+		texture.Bind();
+		shader.SetUniform1i("u_Texture", 0); // 蒋纹理绑定到插槽0
 
 		va.Unbind();
 		vb.Unbind();
