@@ -57,6 +57,9 @@ int main(void)
 			2, 3, 0
 		};
 
+		GLCall(glEnable(GL_BLEND));
+		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)); //混合(Blend)方式,第二个参数表示了如何混合alpha像素
+
 		VertexArray va;
 		VertexBuffer vb(positions, 4 * 4 * sizeof(float)); //在抽象后，这里就自动绑定了
 		
