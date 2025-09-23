@@ -6,9 +6,11 @@ layout(location = 1) in vec2 texCoord;
 
 out vec2 v_TexCoord;
 
+uniform mat4 u_MVP; /* 模型视图投影矩阵(model view projection) */
+
 void main()
 {
-	gl_Position = position;
+	gl_Position = u_MVP * position;
 	v_TexCoord = texCoord;
 };
 
