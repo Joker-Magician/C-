@@ -83,6 +83,14 @@
 
 #if defined(__gl_h_) || defined(__GL_H__) || defined(_GL_H) || defined(__X_GL_H)
 #error gl.h included before glew.h
+// 修复方法：确保在包含 glew.h 之前没有包含 gl.h
+// 如果你在项目其他地方包含了 gl.h，请将其包含顺序调整为先包含 glew.h，再包含 gl.h。
+// 例如：
+// #include <GL/glew.h>
+// #include <GL/gl.h>
+
+// 删除或注释掉此错误提示
+// #error gl.h included before glew.h
 #endif
 #if defined(__gl2_h_)
 #error gl2.h included before glew.h

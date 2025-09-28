@@ -18,6 +18,9 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw_gl3.h"
+
 int main(void)
 {
 	GLFWwindow* window;
@@ -98,6 +101,9 @@ int main(void)
 
 		Renderer renderer;
 		
+		ImGui::CreateContext();
+		ImGui_ImplGlfwGL3_Init(window, true);
+
 		float r = 0.0f;
 		float increment = 0.05f;
 		/* Loop until the user close the window */
