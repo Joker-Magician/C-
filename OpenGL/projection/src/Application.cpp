@@ -76,9 +76,6 @@ int main(void)
 
 		glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f); /*模型视图投影矩阵*/
 		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));; // 创建一个平移矩阵,将所有东西向左移动100单位(类似与相机拍摄物品，注意相对性)
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0)); // 向右移动200，向上移动200
-
-		glm::mat4 mvp = proj * view * model;
 
 		//glm::vec4 vp(100.0f, 100.0f, 0.0f, 1.0f);
 		//glm::vec4 result = proj * vp; // 在CPU端模拟的乘法
@@ -88,7 +85,6 @@ int main(void)
 		Shader shader("res/shaders/Basic.shader");
 		shader.Bind();
 		shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
-		shader.SetUniformMat4f("u_MVP", mvp);
 
 		Texture texture("res/textures/Clogo.png");
 		texture.Bind();
@@ -103,6 +99,13 @@ int main(void)
 		
 		ImGui::CreateContext();
 		ImGui_ImplGlfwGL3_Init(window, true);
+		ImGui::StyleColorsDark();
+
+		glm::vec3 translation(200, 200, 0);
+
+		bool show_demo_window = true;
+		bool show_another_window = false;
+		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 		float r = 0.0f;
 		float increment = 0.05f;
@@ -112,8 +115,14 @@ int main(void)
 			/* Render here */
 			renderer.Clear();
 
+			ImGui_ImplGlfwGL3_NewFrame(); //开启一个新的GL3帧,要确保把它放在imgui代码之间
+
+			glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+			glm::mat4 mvp = proj * view * model;
+
 			shader.Bind();
 			shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+			shader.SetUniformMat4f("u_MVP", mvp);
 
 			renderer.Draw(va, ib, shader);
 
@@ -124,6 +133,15 @@ int main(void)
 
 			r += increment;
 
+			{ //创建一个简单的窗口
+				ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 960.0f);  
+				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			}
+
+			ImGui::Render();
+
+			ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
+
 			/* Swap front and back buffers */
 			glfwSwapBuffers(window);
 
@@ -132,6 +150,8 @@ int main(void)
 		}
 	}
 
+	ImGui_ImplGlfwGL3_Shutdown();
+	ImGui::DestroyContext();
 	glfwTerminate();
 	return 0;
 }
