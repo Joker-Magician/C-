@@ -52,10 +52,10 @@ int main(void)
 	std::cout << glGetString(GL_VERSION) << std::endl;
 	{
 		float positions[] = {
-			100.0f, 100.0f, 0.0f, 0.0f, // 0 
-			200.0f, 100.0f, 1.0f, 0.0f, // 1
-			200.0f, 200.0f, 1.0f, 1.0f, // 2
-			100.0f, 200.0f, 0.0f, 1.0f  // 3
+			-50.0f, -50.0f, 0.0f, 0.0f, // 0 
+			 50.0f, -50.0f, 1.0f, 0.0f, // 1
+			 50.0f,  50.0f, 1.0f, 1.0f, // 2
+			-50.0f,  50.0f, 0.0f, 1.0f  // 3
 		};
 
 		unsigned int indices[] = { //构建索引缓冲区
@@ -75,7 +75,8 @@ int main(void)
 		va.AddBuffer(vb, layout);
 
 		glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f); /*模型视图投影矩阵*/
-		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));; // 创建一个平移矩阵,将所有东西向左移动100单位(类似与相机拍摄物品，注意相对性)
+		glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));; 
+		//glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));; // 创建一个平移矩阵,将所有东西向左移动100单位(类似与相机拍摄物品，注意相对性)
 
 		//glm::vec4 vp(100.0f, 100.0f, 0.0f, 1.0f);
 		//glm::vec4 result = proj * vp; // 在CPU端模拟的乘法
@@ -101,7 +102,8 @@ int main(void)
 		ImGui_ImplGlfwGL3_Init(window, true);
 		ImGui::StyleColorsDark();
 
-		glm::vec3 translation(200, 200, 0);
+		glm::vec3 translationA(200, 200, 0);
+		glm::vec3 translationB(400, 200, 0);
 
 		bool show_demo_window = true;
 		bool show_another_window = false;
@@ -116,15 +118,31 @@ int main(void)
 			renderer.Clear();
 
 			ImGui_ImplGlfwGL3_NewFrame(); //开启一个新的GL3帧,要确保把它放在imgui代码之间
+			
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
+				glm::mat4 mvp = proj * view * model;
+				shader.Bind();
+				shader.SetUniformMat4f("u_MVP", mvp);
+			
+				renderer.Draw(va, ib, shader);
+			}
 
-			glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-			glm::mat4 mvp = proj * view * model;
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
+				glm::mat4 mvp = proj * view * model;
+				shader.Bind();
+				shader.SetUniformMat4f("u_MVP", mvp);
 
-			shader.Bind();
-			shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-			shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(va, ib, shader);
+			}
 
-			renderer.Draw(va, ib, shader);
+			//shader.Bind();
+			////shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f); // 因为我们在渲染一个纹理，不会用这个颜色或其他什么来吸引它，所以可以停止设置它
+			//shader.SetUniformMat4f("u_MVP", mvp);
+
+			//shader.SetUniformMat4f("u_MVP", mvp);
+			//renderer.Draw(va, ib, shader);//渲染第二次
 
 			if (r > 1.0f)
 				increment = -0.05f;
@@ -134,7 +152,8 @@ int main(void)
 			r += increment;
 
 			{ //创建一个简单的窗口
-				ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 960.0f);  
+				ImGui::SliderFloat3("Translation A", &translationA.x, 0.0f, 960.0f);  
+				ImGui::SliderFloat3("Translation B", &translationB.x, 0.0f, 960.0f);  
 				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			}
 
